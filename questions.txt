@@ -1,0 +1,11 @@
+1.Can you name some models used for image classification.
+ans:- VGG16 and VGG19, Resnet50,Mobilenet,etc.
+2.Can you name some other datasets that can be used for Emotion recognition.
+ans:- Affectnet , Extended Cohn-Kanade Dataset (CK+),Google Facial Expression Comparison Dataset,etc.
+3.why do we use max pooling?
+ Max Pooling is a convolution process where the Kernel extracts the maximum value of the area it convolves. Max Pooling simply says to the Convolutional Neural Network that we will carry forward only that information, if that is the largest information available amplitude wise.
+Pooling mainly helps in extracting sharp and smooth features. It is also done to reduce variance and computations. Max-pooling helps in extracting low-level features like edges, points, etc. While Avg-pooling goes for smooth features.
+4. what are you saving model and model weights?
+We will using backend made in flask and load model ,model weights using keras load_from_json module and use it for emotion detection.
+5. Why do you think this rating system is better than the existing ones?
+Ans- current rating systems are either binary or just rating from 1 to 5 , but here we get much more detailed data , and the better the data we get as the input, the better the recommendation system will be

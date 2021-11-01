@@ -1,6 +1,8 @@
 from tensorflow.keras.models import model_from_json
 import numpy as np
 import cv2
+from PIL import Image
+import base64
 
 
 class FacialExpModel(object):
@@ -13,8 +15,16 @@ class FacialExpModel(object):
         self.model.load_weights('model_weights.h5')
 
     def predict_emotion(self,img):
-        img = cv2.imread(img)
+        #img = cv2.imread(img)
         # Convert into grayscale
+        #jpg_as_np = np.frombuffer(img, dtype=np.uint8)
+        #img = cv2.imdecode(jpg_as_np, flags=1)
+        #print(type(img))
+        #img = cv2.imdecode(np.fromstring(img, np.uint8), cv2.IMREAD_UNCHANGED)
+        #print(type(img))
+        pil_image = np.fromstring(base64.b64decode(str(img)), np.uint8)
+        print(type(pil_image))
+        img = cv2.cvtColor(pil_image, cv2.COLOR_RGB2BGR)
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
         # if img is None:
@@ -34,7 +44,7 @@ class FacialExpModel(object):
         faces = face_cascade.detectMultiScale(gray, 1.3, 3)
 
         if len(faces) == 0:
-            return "face not detected"
+            return np.array([[0,0,0,0,0,0,0]])
         
 
         
@@ -43,7 +53,7 @@ class FacialExpModel(object):
             faces = gray[y:y + h, x:x + w]
             faces = cv2.resize(faces,(48,48))
 #            img = np.reshape(faces,[1,48,48,1])
-        return str(self.model.predict(faces[np.newaxis, :, :, np.newaxis]))    
+        return (self.model.predict(faces[np.newaxis, :, :, np.newaxis]))    
 
 
 

@@ -3,6 +3,8 @@ import numpy as np
 import cv2
 from PIL import Image
 import base64
+from io import BytesIO
+from PIL import Image
 
 
 class FacialExpModel(object):
@@ -22,8 +24,12 @@ class FacialExpModel(object):
         #print(type(img))
         #img = cv2.imdecode(np.fromstring(img, np.uint8), cv2.IMREAD_UNCHANGED)
         #print(type(img))
-        pil_image = np.fromstring(base64.b64decode(str(img)), np.uint8)
-        print(type(pil_image))
+        #im_bytes = base64.b64decode(str(img)).decode("utf-8")   # im_bytes is a binary image
+        #im_file = BytesIO(im_bytes)  # convert image to file-like object
+        #img = Image.open(im_file)
+        img = img.split(',')[1]
+        pil_image = np.fromstring( base64.b64decode(img), np.uint8)
+        pil_image =  cv2.imdecode(pil_image, cv2.IMREAD_COLOR)
         img = cv2.cvtColor(pil_image, cv2.COLOR_RGB2BGR)
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 

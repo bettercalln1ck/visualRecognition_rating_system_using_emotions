@@ -7,7 +7,10 @@ import os
 import base64
 import numpy as np
 
+from flask_cors import CORS, cross_origin
 
+app = Flask(__name__)
+#CORS(app, support_credentials=True)
 
 test_model = FacialExpModel("model.json", "model_weights.h5")
 
@@ -57,11 +60,13 @@ def upload_image():
 
 
 @app.route('/rateVideo',methods = ['POST'])
+@cross_origin()
 def upload_video_frame():
     if request.method == 'POST':
         imageArray = request.get_json()["images"]
         data = []
         for img in imageArray:
+            print(img)
             result = test_model.predict_emotion(img)
             data.append(result.tolist()[0])
             print(data)
